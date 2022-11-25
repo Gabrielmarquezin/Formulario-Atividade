@@ -6,7 +6,6 @@ $senha = $_POST['senha'];
 //CONEXAO COM BANCO DE DADOS
 $mysqli = new mysqli("localhost","root","","formulario");
 
-// Check connection
 if ($mysqli -> connect_errno) {
   echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
   exit();
@@ -15,19 +14,19 @@ if ($mysqli -> connect_errno) {
 }
 
 //QUERYS
+$sql = "SELECT nome, senha FROM usuarios WHERE nome = '$nome' and senha = '$senha'";
+$sqlValues = "INSERT INTO usuarios VALUES (0, '$nome', '$senha')";
 
+$res = mysqli_query($mysqli, $sql);
+$linhas = mysqli_affected_rows($mysqli);
 
-$sql = "SELECT nome, senha FROM formulario WHERE nome = '$nome' and senha = '$senha'";
-$$result = $mysqli->query($sql);
-
-if ($result->num_rows > 0){
-      // output data of each row
-     echo 'nao deu';
+if($linhas == 1){
+    echo('<br> REGISTRO JA EXISTE');
 }else{
-    echo "0 result"
+   mysqli_query($mysqli, $sqlValues);
+   echo '<br> USUARIO CADASTRADO COM SUCESSO';
 }
 
-
 $mysqli->close();
-echo 'ola mundo';
+
 ?>
